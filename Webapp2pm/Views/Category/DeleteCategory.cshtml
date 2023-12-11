@@ -1,0 +1,17 @@
+﻿@model Category
+@{
+}
+
+
+<h3>Delete Category</h3>
+
+<form class="w-50 border border-3 p-5 rounded rounded-3" method="post" action="DeleteCategory">
+
+    <input type="hidden" asp-for="CategoryID" />
+
+    <label asp-for="CategoryName"></label>
+    <input asp-for="CategoryName" class="form-control" readonly/>
+
+    <button class="btn btn-success w-100 btn-sm mt-2">Delete Category</button>
+</form>
+

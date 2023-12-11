@@ -6,7 +6,10 @@
 
 <h1>Categories</h1>
 
-<button class="btn btn-success">Add New Category</button>
+<a class="btn btn-success" asp-controller="Category" asp-action="PostCategory">Add New Category</a>
+@* <div class="bg-success text-white">
+
+</div> *@
 <br />
 
 <table class="table w-50 text-center">
@@ -17,19 +20,24 @@
             </td>
             <td colspan="2">Category Name</td>
         </tr>
-        <tbody>
-            @foreach(var obj in Model){
-                <tr>
-                    <td>@(count++)</td>
-                    <td>@obj.CategoryName</td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-warning">Update</button>
-                        <button class="btn btn-primary">Delete</button>
-                        </div>
-                    </td>
-                </tr>
+    <tbody>
+            @foreach (var obj in Model)
+            {
+            <tr>
+                <td>@(count++)</td>
+                <td>@obj.CategoryName</td>
+                <td>
+                    <div class="btn-group">
+                        <a asp-controller="Category" asp-action="UpdateCategory" asp-route-id=@obj.CategoryID class="btn btn-warning">Update</a>
+                        <form asp-action="DeleteCategory" method="post" asp-route-id="@obj.CategoryID">
+                            <button class="btn btn-primary" onclick="return confirm('Are you sure ?')">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
             }
-        </tbody>
+    </tbody>
     </thead>
 </table>
+
+
