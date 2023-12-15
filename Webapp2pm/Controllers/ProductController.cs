@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Webapp2pm.Data.Repository.IRepository;
 using Webapp2pm.Models;
 
@@ -22,7 +23,18 @@ namespace Webapp2pm.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            return View();
+            IEnumerable<SelectListItem> categoryList = _db.Category.GetAll()
+                .Select(u => new SelectListItem
+                {
+                    Text = u.CategoryName,
+                    Value = u.CategoryID.ToString()
+                });
+            ProductViewModel productViewModel = new ProductViewModel()
+            {
+                product = new Product(),
+                categoryList = categoryList
+            };
+            return View(productViewModel);
         }
 
         [HttpPost]

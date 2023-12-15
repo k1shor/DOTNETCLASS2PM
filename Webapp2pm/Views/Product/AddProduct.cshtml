@@ -1,34 +1,36 @@
-﻿@model Product
+﻿@model ProductViewModel
 
 <h1>Add New Product</h1>
 <form class="w-75 m-auto shadow-lg p-5" method="post">
     <div class="form-floating mb-2">
-        <input asp-for="Name" class="form-control" placeholder="name"/>
-        <label asp-for="Name"></label>
-        <span asp-validation-for="Name"></span>
+        <input asp-for="product.Name" class="form-control" placeholder="name"/>
+        <label asp-for="product.Name"></label>
+        <span asp-validation-for="product.Name"></span>
     </div>
     <div class="form-floating mb-2">
-        <input asp-for="Price" class="form-control" placeholder="name" type="number"/>
-        <label asp-for="Price"></label>
-        <span asp-validation-for="Price"></span>
+        <input asp-for="product.Price" class="form-control" placeholder="name" type="number"/>
+        <label asp-for="product.Price"></label>
+        <span asp-validation-for="product.Price"></span>
     </div>
     <div class="form-floating mb-2">
-        <textarea asp-for="Description" class="form-control" placeholder="name" style="height: 125px"></textarea>
-        <label asp-for="Description"></label>
-        <span asp-validation-for="Description"></span>
+        <textarea asp-for="product.Description" class="form-control" placeholder="name" style="height: 125px"></textarea>
+        <label asp-for="product.Description"></label>
+        <span asp-validation-for="product.Description"></span>
     </div>
     <div class="form-floating mb-2">
-        <input asp-for="Stock" class="form-control" placeholder="name" />
-        <label asp-for="Stock"></label>
-        <span asp-validation-for="Stock"></span>
+        <input asp-for="product.Stock" class="form-control" placeholder="name" />
+        <label asp-for="product.Stock"></label>
+        <span asp-validation-for="product.Stock"></span>
     </div>
     <div class="form-floating mb-2">
-        <input asp-for="Category" class="form-control" placeholder="name" />
-        <label asp-for="Category"></label>
+        <select asp-for="product.Category" class="form-control" asp-items="@Model.categoryList">
+            <option selected disabled>Choose Category</option>
+        </select>
+        <label asp-for="product.Category"></label>
     </div>
     <div class="form-floating mb-2">
         <input type="file" class="form-control" placeholder="name" />
-        <label asp-for="ImageUrl">Product Image</label>
+        <label asp-for="product.ImageUrl">Product Image</label>
     </div>
     <button class="btn btn-success w-100">Add New Product</button>
 </form>
