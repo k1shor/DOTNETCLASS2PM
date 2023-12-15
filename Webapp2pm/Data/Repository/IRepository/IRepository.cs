@@ -4,7 +4,7 @@ namespace Webapp2pm.Data.Repository.IRepository
 {
     public interface IRepository<T> where T : class 
     {
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
 
         T FirstOrDefault(Expression<Func<T, bool>> expr);
 

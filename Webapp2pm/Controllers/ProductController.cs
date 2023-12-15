@@ -14,7 +14,7 @@ namespace Webapp2pm.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> products = _db.Product.GetAll();
+            IEnumerable<Product> products = _db.Product.GetAll(includeProperties: "Category");
             return View(products); ;
         }
     }

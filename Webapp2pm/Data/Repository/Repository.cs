@@ -28,12 +28,16 @@ namespace Webapp2pm.Data.Repository
             _dbSet.RemoveRange(entities);
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet;
             if(filter != null)
             {
                 query = query.Where(filter);
+            }
+            if(includeProperties != null)
+            {
+                query = query.Include(includeProperties);
             }
             return query;
         }
