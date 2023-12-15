@@ -9,18 +9,21 @@ namespace Webapp2pm.Controllers
 {
     public class CategoryController : Controller
     {
-//        private readonly ApplicationDbContext _db;
-        private readonly ICategoryRepository _db;
+        //        private readonly ApplicationDbContext _db;
+        //        private readonly ICategoryRepository _db;
+        private readonly IUnitOfWork _db;
 
-//        public CategoryController(ApplicationDbContext db)
-        public CategoryController(ICategoryRepository db)
+        //        public CategoryController(ApplicationDbContext db)
+        //          public CategoryController(ICategoryRepository db)
+        public CategoryController(IUnitOfWork db)
         {
             _db = db;
         }
         public IActionResult Index()
         {
             //IEnumerable<Category> categories = _db.Categories;
-            IEnumerable<Category> categories = _db.GetAll();
+            //IEnumerable<Category> categories = _db.GetAll();
+            IEnumerable<Category> categories = _db.Category.GetAll();
             return View(categories);
         }
         [HttpGet]
@@ -42,7 +45,7 @@ namespace Webapp2pm.Controllers
                 //_db.Categories.Add(categoryObj);
                 //_db.SaveChanges();
 
-                _db.Create(categoryObj);
+                _db.Category.Create(categoryObj);
                 _db.Save();
 
 
@@ -58,9 +61,9 @@ namespace Webapp2pm.Controllers
         [HttpGet]
         public IActionResult UpdateCategory(int id)
         {
-//            Category categoryObj = _db.Categories.Find(id);
+            //            Category categoryObj = _db.Categories.Find(id);
 
-            Category categoryObj = _db.FirstOrDefault(u => u.CategoryID == id);
+            Category categoryObj = _db.Category.FirstOrDefault(u => u.CategoryID == id);
             return View(categoryObj);
         }
         [HttpPost]
@@ -71,7 +74,7 @@ namespace Webapp2pm.Controllers
                 //_db.Categories.Update(categoryObj);
                 //_db.SaveChanges();
 
-                _db.Update(categoryObj);
+                _db.Category.Update(categoryObj);
                 _db.Save();
 
                 TempData["Success"] = "Category Updated Successfully.";
@@ -87,7 +90,7 @@ namespace Webapp2pm.Controllers
         {
 
             //Category categoryObj = _db.Categories.Find(id);
-            Category categoryObj = _db.FirstOrDefault(u => u.CategoryID == id);
+            Category categoryObj = _db.Category.FirstOrDefault(u => u.CategoryID == id);
             return View(categoryObj);
         }
 
@@ -97,7 +100,7 @@ namespace Webapp2pm.Controllers
         public IActionResult Delete_Category(int id)
         {
             //Category categoryObj = _db.Categories.Find(id);
-            Category categoryObj = _db.FirstOrDefault(u => u.CategoryID == id);
+            Category categoryObj = _db.Category.FirstOrDefault(u => u.CategoryID == id);
 
             if (categoryObj == null)
             {
@@ -105,7 +108,7 @@ namespace Webapp2pm.Controllers
             }
             //_db.Categories.Remove(categoryObj);
             //_db.SaveChanges();
-            _db.Delete(categoryObj);
+            _db.Category.Delete(categoryObj);
             _db.Save();
 
             TempData["success"] = "Category Deleted Successfully";

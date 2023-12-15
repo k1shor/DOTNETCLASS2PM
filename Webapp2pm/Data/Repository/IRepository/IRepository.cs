@@ -11,7 +11,7 @@ namespace Webapp2pm.Data.Repository.IRepository
         void Create(T entity);
         void Delete(T entity);
         void DeleteRange(List<T> entities);
-        void Save();
+        
     }
    
 }

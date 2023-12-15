@@ -7,12 +7,13 @@ namespace Webapp2pm.Data.Repository
     {
         private readonly ApplicationDbContext _db;
         public CategoryRepository(ApplicationDbContext db) : base(db) 
-        {          
+        {
+            _db = db;
         }
 
         public void Update(Category categoryObj)
         {
-            _db.Update(categoryObj);
+            _db.Categories.Update(categoryObj);
         }
     }
 }
