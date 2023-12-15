@@ -24,6 +24,6 @@ namespace Webapp2pm.Models
         [Required(ErrorMessage ="Count in stock is required")]
         public int Stock { get; set; }
         [ValidateNever]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

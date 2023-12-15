@@ -17,5 +17,28 @@ namespace Webapp2pm.Controllers
             IEnumerable<Product> products = _db.Product.GetAll(includeProperties: "Category");
             return View(products); ;
         }
+
+
+        [HttpGet]
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Product.Create(product);
+                _db.Save();
+                TempData["success"] = "Product Added Successfully";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(product);
+            }
+        }
     }
 }
