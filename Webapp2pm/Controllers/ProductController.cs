@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Webapp2pm.Data.Repository.IRepository;
 using Webapp2pm.Models;
@@ -8,10 +9,12 @@ namespace Webapp2pm.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IUnitOfWork db)
+        public ProductController(IUnitOfWork db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -21,36 +24,84 @@ namespace Webapp2pm.Controllers
 
 
         [HttpGet]
-        public IActionResult AddProduct()
+        public IActionResult UpsertProduct(int? id)
         {
+            ProductViewModel productViewModel;
             IEnumerable<SelectListItem> categoryList = _db.Category.GetAll()
                 .Select(u => new SelectListItem
                 {
                     Text = u.CategoryName,
                     Value = u.CategoryID.ToString()
                 });
-            ProductViewModel productViewModel = new ProductViewModel()
+            if (id == 0 || id == null)
             {
-                product = new Product(),
-                categoryList = categoryList
-            };
+                productViewModel = new ProductViewModel()
+                {
+                    product = new Product(),
+                    categoryList = categoryList
+                };
+            }
+            else
+            {
+                productViewModel = new ProductViewModel()
+                {
+                    product = _db.Product.FirstOrDefault(u => u.Id == id),
+                    categoryList = categoryList
+                };
+            }
             return View(productViewModel);
         }
 
         [HttpPost]
-        public IActionResult AddProduct(Product product)
+        public IActionResult UpsertProduct(ProductViewModel productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                _db.Product.Create(product);
-                _db.Save();
-                TempData["success"] = "Product Added Successfully";
+                string wwwRoot = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string filename = Guid.NewGuid().ToString() + Path.GetFileName(file.FileName);
+                    string filepath = Path.Combine(wwwRoot, @"Images\Products", filename);
+
+                    string oldFilePath = Path.Combine(wwwRoot, productVM.product.ImageUrl).TrimStart('\\');
+
+                    if (!string.IsNullOrEmpty(productVM.product.ImageUrl))
+                    {
+                        var oldImage = Path.Combine(wwwRoot, productVM.product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImage))
+                        {
+                            System.IO.File.Delete(oldImage);
+                        }
+                    }
+
+                    using (var filestream = new FileStream(filepath, FileMode.Create))
+                    {
+                        file.CopyTo(filestream);
+                    }
+                    productVM.product.ImageUrl = @"\Images\Products\" + filename;
+                }
+
+
+                if (productVM.product.Id == 0)
+                {
+                    _db.Product.Create(productVM.product);
+                    _db.Save();
+                    TempData["success"] = "Product Added Successfully";
+                }
+                else
+                {
+                    _db.Product.Update(productVM.product);
+                    _db.Save();
+                    TempData["success"] = "Product Updated Successfully";
+                }
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(product);
+                return View(productVM);
             }
         }
     }
 }
+
+

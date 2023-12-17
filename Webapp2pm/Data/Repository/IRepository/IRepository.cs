@@ -6,7 +6,7 @@ namespace Webapp2pm.Data.Repository.IRepository
     {
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
 
-        T FirstOrDefault(Expression<Func<T, bool>> expr);
+        T FirstOrDefault(Expression<Func<T, bool>> expr, string? includeProperties = null);
 
         void Create(T entity);
         void Delete(T entity);

@@ -6,7 +6,7 @@
 
 <h1>Products</h1>
 
-<a class="btn btn-success" asp-controller="Product" asp-action="PostCategory">Add New Product</a>
+<a class="btn btn-success" asp-controller="Product" asp-action="UpsertProduct">Add New Product</a>
 @* <div class="bg-success text-white">
 
 </div> *@
@@ -38,7 +38,7 @@
                 <td>@obj.Category.CategoryName</td>
                                 <td>
                     <div class="btn-group">
-                        <a asp-controller="Category" asp-action="UpdateCategory" asp-route-id=@obj.CategoryID class="btn btn-warning">Update</a>
+                        <a asp-controller="Product" asp-action="UpsertProduct" asp-route-id=@obj.Id class="btn btn-warning">Update</a>
                         <form asp-action="DeleteCategory" method="post" asp-route-id="@obj.CategoryID">
                             <button class="btn btn-primary" onclick="return confirm('Are you sure ?')">Delete</button>
                         </form>

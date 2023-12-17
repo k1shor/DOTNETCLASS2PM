@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Webapp2pm.Data.Repository.IRepository;
+using Webapp2pm.Models;
 
 namespace Webapp2pm.Data.Repository
 {
@@ -42,10 +43,18 @@ namespace Webapp2pm.Data.Repository
             return query;
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> expr)
+        public T FirstOrDefault(Expression<Func<T, bool>> expr, string? includeProperties = null)
         {
-/*            return _dbSet.Find(id);*/
-            return _dbSet.FirstOrDefault(expr);
+            IQueryable<T> query = _dbSet;
+            if (expr != null)
+            {
+                query = query.Where(expr);
+            }
+            if (includeProperties != null)
+            {
+                query = query.Include(includeProperties);
+            }
+            return query.FirstOrDefault();
         }
 
         public void Save()

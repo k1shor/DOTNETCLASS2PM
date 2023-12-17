@@ -1,14 +1,18 @@
 ﻿@model ProductViewModel
 
-<h1>Add New Product</h1>
-<form class="w-75 m-auto shadow-lg p-5" method="post">
+<h1>
+    @(Model.product.Id == 0 ? "Add New Product" : "Update Product")
+</h1>
+<form class="w-75 m-auto shadow-lg p-5" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="product.Id" />
+    <input type="hidden" asp-for="product.ImageUrl" />
     <div class="form-floating mb-2">
-        <input asp-for="product.Name" class="form-control" placeholder="name"/>
+        <input asp-for="product.Name" class="form-control" placeholder="name" />
         <label asp-for="product.Name"></label>
         <span asp-validation-for="product.Name"></span>
     </div>
     <div class="form-floating mb-2">
-        <input asp-for="product.Price" class="form-control" placeholder="name" type="number"/>
+        <input asp-for="product.Price" class="form-control" placeholder="name" type="number" />
         <label asp-for="product.Price"></label>
         <span asp-validation-for="product.Price"></span>
     </div>
@@ -23,14 +27,16 @@
         <span asp-validation-for="product.Stock"></span>
     </div>
     <div class="form-floating mb-2">
-        <select asp-for="product.Category" class="form-control" asp-items="@Model.categoryList">
-            <option selected disabled>Choose Category</option>
+        <select asp-for="product.CategoryID" class="form-control" asp-items="@Model.categoryList">
         </select>
         <label asp-for="product.Category"></label>
     </div>
+    <img src=@Model.product.ImageUrl alt=@Model.product.Name style="height:150px"/>
     <div class="form-floating mb-2">
-        <input type="file" class="form-control" placeholder="name" />
+        <input type="file" class="form-control" placeholder="name" name="file" />
         <label asp-for="product.ImageUrl">Product Image</label>
     </div>
-    <button class="btn btn-success w-100">Add New Product</button>
+    <button class="btn btn-success w-100">
+        @(Model.product.Id == 0 ? "Add New Product" : "Update Product")
+        </button>
 </form>
