@@ -63,14 +63,12 @@ namespace Webapp2pm.Controllers
                     string filename = Guid.NewGuid().ToString() + Path.GetFileName(file.FileName);
                     string filepath = Path.Combine(wwwRoot, @"Images\Products", filename);
 
-                    string oldFilePath = Path.Combine(wwwRoot, productVM.product.ImageUrl).TrimStart('\\');
-
                     if (!string.IsNullOrEmpty(productVM.product.ImageUrl))
                     {
-                        var oldImage = Path.Combine(wwwRoot, productVM.product.ImageUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(oldImage))
+                        var oldFilePath = Path.Combine(wwwRoot, productVM.product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldFilePath))
                         {
-                            System.IO.File.Delete(oldImage);
+                            System.IO.File.Delete(oldFilePath);
                         }
                     }
 
