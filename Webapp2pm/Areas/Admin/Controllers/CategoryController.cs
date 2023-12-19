@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Utils;
 using Webapp2pm.Data.Repository.IRepository;
 using Webapp2pm.Models;
 
 namespace Webapp2pm.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles =StaticData.ROLE_ADMIN)]
     public class CategoryController : Controller
     {
         //        private readonly ApplicationDbContext _db;
