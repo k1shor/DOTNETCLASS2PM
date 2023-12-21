@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 
 namespace Webapp2pm.Models
 {
@@ -20,5 +21,10 @@ namespace Webapp2pm.Models
         public Product Product { get; set; }
         [Required]
         public int Quantity { get; set; }
+
+        public string UserID { get; set; }
+        [ForeignKey("UserID")]
+        [ValidateNever]
+        public ApplicationUser User { get; set; }
     }
 }

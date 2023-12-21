@@ -1,26 +1,28 @@
 ﻿@model ShoppingCart
-
-<div class="p-5">
-    <a asp-action="Index">Go Back...</a>
-    <div class="card">
-        <div class="card_header bg-dark text-white p-5 text-center">@Model.Product.Name</div>
-        <div class="card_body row">
-            <div class="col-md-6 p-5">
-                <img src="@Model.Product.ImageUrl" class="w-100" />
-            </div>
-            <div class="col-md-6 p-5 align-self-center">
-                <h3>@Model.Product.Name</h3>
-                <h4>Rs.@Model.Product.Price</h4>
-                <p class="h5"><b>Description:</b> @Model.Product.Description</p>
-                <h4>In Stock: @Model.Product.Stock</h4>
-                <div class="d-flex justify-content-between">
-
-                    <h4>Quantity</h4>
-                    <input type="number" asp-for="@Model.Quantity" />
+<form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
+    <input type="hidden" asp-for="@Model.productID">
+    <div class="p-5">
+        <a asp-action="Index">Go Back...</a>
+        <div class="card">
+            <div class="card_header bg-dark text-white p-5 text-center">@Model.Product.Name</div>
+            <div class="card_body row">
+                <div class="col-md-6 p-5">
+                    <img src="@Model.Product.ImageUrl" class="w-100" />
                 </div>
+                <div class="col-md-6 p-5 align-self-center">
+                    <h3>@Model.Product.Name</h3>
+                    <h4>Rs.@Model.Product.Price</h4>
+                    <p class="h5"><b>Description:</b> @Model.Product.Description</p>
+                    <h4>In Stock: @Model.Product.Stock</h4>
+                    <div class="d-flex justify-content-between">
 
-                <button class="btn btn-warning">Add to Cart</button>
+                        <h4>Quantity</h4>
+                        <input type="number" asp-for="@Model.Quantity" />
+                    </div>
+
+                    <button class="btn btn-warning">Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
