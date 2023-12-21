@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Models;
 using System.Diagnostics;
 using Webapp2pm.Data.Repository.IRepository;
 using Webapp2pm.Models;
@@ -11,7 +12,7 @@ namespace Webapp2pm.Areas.Customer.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _db;
 
-        public HomeController(ILogger<HomeController> logger,IUnitOfWork db)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork db)
         {
             _logger = logger;
             _db = db;
@@ -19,8 +20,19 @@ namespace Webapp2pm.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> products = _db.Product.GetAll(includeProperties:"Category");
+            IEnumerable<Product> products = _db.Product.GetAll(includeProperties: "Category");
             return View(products);
+        }
+
+        public IActionResult Product(int productId)
+        {
+            ShoppingCart
+                cartObj = new()
+            {
+                Product = _db.Product.FirstOrDefault(u => u.Id == productId, "Category"),
+                Quantity = 1
+            };
+            return View(cartObj);
         }
 
         public IActionResult Privacy()

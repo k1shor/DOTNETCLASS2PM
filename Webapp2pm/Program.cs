@@ -27,6 +27,7 @@ builder.Services.ConfigureApplicationCookie(options => {
 // to use repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
