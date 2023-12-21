@@ -22,12 +22,18 @@ namespace Webapp2pm.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            ShoppingCartViewModel shoppingCarts = new()
+            ShoppingCartViewModel shoppingCartVM = new()
             {
-                shoppingCarts = _db.ShoppingCart.GetAll(u => u.UserID == userId)
+                shoppingCarts = _db.ShoppingCart.GetAll(u => u.UserID == userId, "Product").ToList(),
             };
 
-            return View(shoppingCarts);
+            double total = 0;
+            foreach(var item in shoppingCartVM.shoppingCarts)
+            {
+                total += item.Quantity * item.Product.Price;
+            }
+
+            return View(shoppingCartVM);
         }
 
         [HttpPost]

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Webapp2pm.Models;
 
-namespace Models
+namespace Webapp2pm.Models
 {
     public class ShoppingCartViewModel
     {

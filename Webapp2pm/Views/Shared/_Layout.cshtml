@@ -35,6 +35,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if(User.IsInRole(StaticData.ROLE_CUSTOMER)){
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index">Cart</a>
+                        </li>
+                        }
+
                         @if (User.IsInRole(StaticData.ROLE_ADMIN))
                         {
                             <li class="nav-item">
