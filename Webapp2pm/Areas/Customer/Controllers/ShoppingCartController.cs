@@ -61,5 +61,51 @@ namespace Webapp2pm.Areas.Customer.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Decrease(int productID)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var shoppingCart = _db.ShoppingCart.FirstOrDefault(u=>u.UserID == userId && u.productID == productID);
+
+            if(shoppingCart.Quantity == 1) {
+                _db.ShoppingCart.Delete(shoppingCart);
+                _db.Save();
+                TempData["success"] = "Item removed";
+            }
+            else
+            {
+                shoppingCart.Quantity--;
+                _db.ShoppingCart.Update(shoppingCart);
+                _db.Save();
+                TempData["success"] = "Quantity Decreased";
+            }
+            return RedirectToAction("Index");
+
+        }
+        [HttpPost]
+        public IActionResult Increase(int productID)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var shoppingCart = _db.ShoppingCart.FirstOrDefault(u => u.UserID == userId && u.productID == productID, "Product");
+
+            if (shoppingCart.Quantity == shoppingCart.Product.Stock)
+            {
+                TempData["error"] = "Item quantity reached maximum.";
+            }
+            else
+            {
+                shoppingCart.Quantity++;
+//                _db.ShoppingCart.Update(shoppingCart);
+                _db.Save();
+                TempData["success"] = "Quantity Increased";
+            }
+            return RedirectToAction("Index");
+
+        }
     }
 }
